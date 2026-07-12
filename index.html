@@ -821,5 +821,35 @@
   window.onload = fetchVisitorData;
 </script>
 
+<!-- ================= AUTO TRANSLATE JAVASCRIPT ================= -->
+<!-- Widget Google Translate disembunyikan agar desain web tetap rapi -->
+<div id="google_translate_element" style="display:none;"></div>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'id', // Bahasa asli Landing Page Anda
+      autoDisplay: false
+    }, 'google_translate_element');
+
+    // Waktu tunda 1 detik agar sistem Google siap
+    setTimeout(function() {
+        // Mendeteksi bahasa browser/HP pengunjung
+        var lang = navigator.language || navigator.userLanguage; 
+        
+        // Jika bahasa mereka BUKAN bahasa Indonesia ('id')
+        if (lang.indexOf('id') === -1) { 
+           var selectField = document.querySelector("select.goog-te-combo");
+           if (selectField) {
+               // Ubah bahasa sesuai browser mereka secara otomatis
+               selectField.value = lang.split('-')[0]; 
+               selectField.dispatchEvent(new Event('change'));
+           }
+        }
+    }, 1000); 
+  }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- ============================================================= -->  
 </body>
 </html>
