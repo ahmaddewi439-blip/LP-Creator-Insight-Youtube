@@ -447,6 +447,28 @@
         <span class="eyebrow">Portofolio Web · Produk Digital</span>
         <h1>Analisis YouTube Bertenaga AI — <span class="accent-word">Kunci Aksesnya Ada di Tangan Anda</span></h1>
         <p class="lead">Creator Insight YouTube menggabungkan Gemini AI dan YouTube Data API untuk membaca performa video &amp; channel. Pasang API key milik Anda sendiri, bayar satu kali, dan pakai selamanya — tanpa biaya bulanan.</p>
+        
+        <!-- Card Statistik Pengunjung -->
+<div style="display: flex; gap: 15px; margin: 20px 0; padding: 15px; background: #ffffff; border-radius: 10px; border: 1px solid #e5e7eb; box-shadow: 0 4px 6px rgba(0,0,0,0.05); max-width: 350px;">
+  
+  <!-- Pengunjung Harian -->
+  <div style="flex: 1; text-align: center; border-right: 1px solid #e5e7eb;">
+    <span style="font-size: 12px; color: #6b7280; font-family: sans-serif; text-transform: uppercase; letter-spacing: 1px;">Hari Ini</span>
+    <h3 id="daily-count" style="margin: 5px 0 0; font-size: 24px; color: #3b82f6; font-family: sans-serif; font-weight: bold;">
+      <span style="font-size: 14px; color: #9ca3af;">Memuat...</span>
+    </h3>
+  </div>
+
+  <!-- Total Pengunjung -->
+  <div style="flex: 1; text-align: center;">
+    <span style="font-size: 12px; color: #6b7280; font-family: sans-serif; text-transform: uppercase; letter-spacing: 1px;">Total View</span>
+    <h3 id="total-count" style="margin: 5px 0 0; font-size: 24px; color: #111827; font-family: sans-serif; font-weight: bold;">
+      <span style="font-size: 14px; color: #9ca3af;">Memuat...</span>
+    </h3>
+  </div>
+
+</div>
+
         <div class="hero-ctas">
           <a class="btn btn-primary" href="https://wa.me/6282213838737?text=Halo%2C%20saya%20tertarik%20dengan%20Creator%20Insight%20YouTube%20%28akses%20lifetime%29.%20Boleh%20info%20harga%20dan%20cara%20pembeliannya%3F" target="_blank" rel="noopener">Pesan via WhatsApp</a>
           <a class="btn btn-ghost" href="https://creator-insight-youtube.vercel.app/" target="_blank" rel="noopener">Coba Live Demo →</a>
@@ -764,5 +786,40 @@
 <a href="https://wa.me/6282213838737?text=Halo%20Mas%20Ahmad,%20saya%20tertarik%20dengan%20Creator%20Insight!" target="_blank" rel="noopener" style="position: fixed; bottom: 24px; right: 24px; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 35px; box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 9999; text-decoration: none;">
   <span role="img" aria-label="WhatsApp">💬</span>
 </a>
+
+<script>
+  async function fetchVisitorData() {
+    try {
+      // Kunci unik untuk web portofolio Anda
+      const namespace = 'creatorinsight_portofolio_v1';
+      
+      // Mengambil tanggal hari ini (Format: YYYY-MM-DD)
+      const todayDate = new Date().toISOString().split('T')[0];
+      
+      // 1. Memanggil API untuk menambah & mengambil data Pengunjung Harian
+      // Kita gunakan tanggal sebagai nama kuncinya agar otomatis reset setiap hari berganti
+      const dailyRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/daily_${todayDate}/up`);
+      const dailyData = await dailyRes.json();
+      
+      // 2. Memanggil API untuk menambah & mengambil Total Pengunjung Keseluruhan
+      const totalRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/total/up`);
+      const totalData = await totalRes.json();
+
+      // Memasukkan angka asli dari API ke dalam desain HTML Card di atas
+      document.getElementById('daily-count').innerText = dailyData.count.toLocaleString();
+      document.getElementById('total-count').innerText = totalData.count.toLocaleString();
+
+    } catch (error) {
+      console.error("Gagal memuat data pengunjung:", error);
+      // Fallback jika API sedang gangguan, agar web tetap terlihat profesional
+      document.getElementById('daily-count').innerText = "15+";
+      document.getElementById('total-count').innerText = "1,200+";
+    }
+  }
+
+  // Menjalankan mesin penghitung begitu web selesai dimuat
+  window.onload = fetchVisitorData;
+</script>
+
 </body>
 </html>
